@@ -12,7 +12,7 @@ type PageShellProps = {
 export function PageShell({ eyebrow, title, description, children }: PageShellProps) {
   return (
     <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
-      <p className="text-sm font-bold uppercase tracking-normal text-red-700 dark:text-red-300">
+      <p className="text-sm font-bold uppercase tracking-normal text-[#b11226] dark:text-red-300">
         {eyebrow}
       </p>
       <h1 className="mt-3 text-4xl font-black text-slate-950 dark:text-white">{title}</h1>

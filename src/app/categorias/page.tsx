@@ -8,7 +8,7 @@ export const metadata = {
 export default function CategoriesPage() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <p className="text-sm font-bold uppercase tracking-normal text-red-700 dark:text-red-300">
+      <p className="text-sm font-bold uppercase tracking-normal text-[#b11226] dark:text-red-300">
         Categorias
       </p>
       <h1 className="mt-3 text-4xl font-black text-slate-950 dark:text-white">
@@ -23,7 +23,7 @@ export default function CategoriesPage() {
               href={`/categoria/${category.slug}`}
               className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
             >
-              <div className="grid size-11 place-items-center rounded-lg border border-yellow-300/70 bg-[#00145f] text-yellow-200">
+              <div className="grid size-11 place-items-center rounded-lg border border-black bg-white text-[#b11226] dark:border-stone-200">
                 <Icon size={20} aria-hidden="true" />
               </div>
               <h2 className="mt-4 text-xl font-black text-slate-950 dark:text-white">{category.name}</h2>

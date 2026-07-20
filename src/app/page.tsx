@@ -14,10 +14,10 @@ import {
 export default function Home() {
   return (
     <>
-      <section className="border-b border-red-950/10 bg-white dark:border-red-500/20 dark:bg-zinc-950">
+      <section className="border-b border-stone-200 bg-[#fffdf7] dark:border-stone-800 dark:bg-stone-950">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.08fr_0.92fr] lg:px-8 lg:py-16">
           <div className="flex flex-col justify-center">
-            <p className="inline-flex w-fit items-center gap-2 rounded-full border border-yellow-300/70 bg-white px-3 py-1 text-sm font-bold text-[#00145f] shadow-sm dark:border-yellow-300/30 dark:bg-white/5 dark:text-yellow-200">
+            <p className="inline-flex w-fit items-center gap-2 rounded-full border border-[#b08a2e]/50 bg-white px-3 py-1 text-sm font-bold text-[#b11226] shadow-sm dark:border-[#b08a2e]/40 dark:bg-white/5 dark:text-stone-100">
               <ShieldCheck size={16} aria-hidden="true" />
               Directorio fraterno DeMolay en Bolivia
             </p>
@@ -27,7 +27,7 @@ export default function Home() {
             <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
               Work DeMolay conecta a la comunidad con perfiles curados por administracion, para que la hermandad tambien sea apoyo, resiliencia y servicio en la vida diaria.
             </p>
-            <blockquote className="mt-5 max-w-2xl border-l-4 border-yellow-300 pl-4 text-base font-semibold leading-7 text-[#00145f] dark:text-yellow-100">
+            <blockquote className="mt-5 max-w-2xl border-l-4 border-[#b11226] pl-4 text-base font-semibold leading-7 text-stone-900 dark:text-stone-100">
               Un hermano DeMolay nunca camina solo.
             </blockquote>
 
@@ -47,12 +47,12 @@ export default function Home() {
           </div>
 
           <div className="grid content-center gap-4">
-            <div className="rounded-xl border border-yellow-300/70 bg-white p-5 shadow-xl shadow-red-950/10 dark:border-yellow-300/30 dark:bg-zinc-950 dark:shadow-black/30">
-              <div className="mb-5 rounded-lg border border-yellow-300/70 bg-[linear-gradient(135deg,#00145f_0%,#00145f_44%,#9b0000_45%,#9b0000_100%)] p-5 text-white">
+            <div className="rounded-xl border border-stone-300 bg-white p-5 shadow-xl shadow-stone-900/10 dark:border-stone-800 dark:bg-stone-950 dark:shadow-black/30">
+              <div className="mb-5 rounded-lg border border-[#b08a2e]/50 bg-[linear-gradient(135deg,#111111_0%,#111111_56%,#b11226_57%,#b11226_100%)] p-5 text-white">
                 <div className="flex items-center gap-4">
                   <BrandMark className="size-20 shrink-0" />
                   <div>
-                    <p className="text-sm font-bold uppercase tracking-normal text-yellow-200">
+                    <p className="text-sm font-bold uppercase tracking-normal text-[#d2b15f]">
                       Work DeMolay
                     </p>
                     <p className="mt-1 text-2xl font-black">Directorio de hermanos y servicios</p>
@@ -68,15 +68,15 @@ export default function Home() {
                   ["9", "departamentos listos"],
                   ["Admin", "carga controlada"]
                 ].map(([value, label]) => (
-                  <div key={label} className="rounded-lg border border-slate-100 bg-white p-4 dark:border-zinc-800 dark:bg-black">
-                    <p className="text-3xl font-black text-[#00145f] dark:text-yellow-200">{value}</p>
+                  <div key={label} className="rounded-lg border border-stone-200 bg-[#fffdf7] p-4 dark:border-stone-800 dark:bg-black">
+                    <p className="text-3xl font-black text-[#b11226] dark:text-stone-100">{value}</p>
                     <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{label}</p>
                   </div>
                 ))}
               </div>
-              <div className="mt-5 rounded-lg border border-yellow-300/50 bg-black p-5 text-white">
+              <div className="mt-5 rounded-lg border border-[#b08a2e]/50 bg-[#111111] p-5 text-white">
                 <div className="flex items-center gap-3">
-                  <Sparkles size={24} className="text-yellow-300" aria-hidden="true" />
+                  <Sparkles size={24} className="text-[#d2b15f]" aria-hidden="true" />
                   <p className="text-lg font-black">Servicio, confianza y fraternidad</p>
                 </div>
                 <p className="mt-3 text-sm leading-6 opacity-80">
@@ -88,9 +88,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-y border-yellow-300/40 bg-black py-10 text-white">
+      <section className="border-y border-[#b08a2e]/40 bg-[#111111] py-10 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-sm font-bold uppercase tracking-normal text-yellow-200">
+          <p className="text-sm font-bold uppercase tracking-normal text-[#d2b15f]">
             Hermandad y resiliencia
           </p>
           <div className="mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-5">
@@ -110,7 +110,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-sm font-bold uppercase tracking-normal text-red-700 dark:text-red-300">
+              <p className="text-sm font-bold uppercase tracking-normal text-[#b11226] dark:text-red-300">
                 Categorias destacadas
               </p>
               <h2 className="mt-2 text-3xl font-black text-slate-950 dark:text-white">
@@ -129,9 +129,9 @@ export default function Home() {
                 <a
                   key={category.slug}
                   href={`/categoria/${category.slug}`}
-                  className="rounded-xl border border-slate-200 bg-white p-5 transition hover:-translate-y-0.5 hover:border-yellow-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-950 dark:hover:border-yellow-300/50 dark:hover:bg-slate-900"
+                  className="rounded-xl border border-stone-200 bg-white p-5 transition hover:-translate-y-0.5 hover:border-[#b08a2e] hover:shadow-md dark:border-stone-800 dark:bg-stone-950 dark:hover:border-[#b08a2e]/60 dark:hover:bg-stone-900"
                 >
-                  <div className="grid size-11 place-items-center rounded-lg border border-yellow-300/70 bg-[#00145f] text-yellow-200">
+                  <div className="grid size-11 place-items-center rounded-lg border border-black bg-white text-[#b11226] dark:border-stone-200">
                     <Icon size={20} aria-hidden="true" />
                   </div>
                   <h3 className="mt-4 text-lg font-black text-slate-950 dark:text-white">{category.name}</h3>
@@ -147,7 +147,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-sm font-bold uppercase tracking-normal text-red-700 dark:text-red-300">
+              <p className="text-sm font-bold uppercase tracking-normal text-[#b11226] dark:text-red-300">
                 Datos ficticios
               </p>
               <h2 className="mt-2 text-3xl font-black text-slate-950 dark:text-white">
@@ -170,7 +170,7 @@ export default function Home() {
       <section id="como-funciona" className="bg-white py-12 dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
-            <p className="text-sm font-bold uppercase tracking-normal text-red-700 dark:text-red-300">
+            <p className="text-sm font-bold uppercase tracking-normal text-[#b11226] dark:text-red-300">
               Como funciona
             </p>
             <h2 className="mt-2 text-3xl font-black text-slate-950 dark:text-white">
@@ -181,7 +181,7 @@ export default function Home() {
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {howItWorks.map((step, index) => (
               <div key={step.title} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-950">
-                <div className="grid size-10 place-items-center rounded-lg border border-yellow-300/70 bg-[#00145f] text-sm font-black text-yellow-200">
+                <div className="grid size-10 place-items-center rounded-lg border border-black bg-white text-sm font-black text-[#b11226] dark:border-stone-200">
                   {index + 1}
                 </div>
                 <h3 className="mt-4 text-lg font-black text-slate-950 dark:text-white">{step.title}</h3>
@@ -190,7 +190,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-10 rounded-xl border border-red-900/30 bg-black p-6 text-white md:flex md:items-center md:justify-between md:gap-6 dark:border-red-500/30">
+          <div className="mt-10 rounded-xl border border-[#b08a2e]/40 bg-[#111111] p-6 text-white md:flex md:items-center md:justify-between md:gap-6 dark:border-[#b08a2e]/30">
             <div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 size={22} aria-hidden="true" />

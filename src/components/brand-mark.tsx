@@ -1,5 +1,3 @@
-import { Crown } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 
 type BrandMarkProps = {
@@ -11,21 +9,23 @@ export function BrandMark({ className, compact = false }: BrandMarkProps) {
   return (
     <span
       className={cn(
-        "relative grid place-items-center overflow-hidden rounded-lg border border-yellow-300 bg-[#00145f] text-white shadow-sm shadow-red-950/20",
+        "relative grid place-items-center overflow-hidden rounded-lg border-2 border-black bg-white text-black shadow-sm shadow-red-950/20 dark:border-stone-200",
         compact ? "size-10" : "size-20",
         className
       )}
       aria-hidden="true"
     >
-      <span className="absolute inset-0 bg-[linear-gradient(135deg,#090909_0%,#090909_45%,#9b0000_46%,#9b0000_100%)]" />
-      <span className="absolute inset-x-2 bottom-2 h-1 rounded-full bg-yellow-300" />
-      <Crown
-        size={compact ? 16 : 28}
-        className="relative mb-0.5 text-yellow-300"
-        strokeWidth={2.4}
-      />
-      <span className={cn("relative font-black leading-none", compact ? "text-xs" : "text-xl")}>
-        DM
+      <span className="absolute inset-x-1/2 top-1 bottom-1 w-2 -translate-x-1/2 rounded-sm bg-[#b11226]" />
+      <span className="absolute inset-y-1/2 left-1 right-1 h-2 -translate-y-1/2 rounded-sm bg-[#b11226]" />
+      <span className="absolute inset-1 rounded-md border border-[#b08a2e]/70" />
+      <span
+        className={cn(
+          "relative rounded bg-white/90 px-1 font-black leading-none tracking-normal",
+          compact ? "text-xs" : "text-xl"
+        )}
+      >
+        <span className="text-black">D</span>
+        <span className="text-[#b11226]">M</span>
       </span>
     </span>
   );

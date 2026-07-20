@@ -29,11 +29,11 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 
   return (
     <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
-      <p className="inline-flex rounded-full bg-red-50 px-3 py-1 text-sm font-bold text-red-800 dark:bg-red-500/10 dark:text-red-200">
+      <p className="inline-flex rounded-full border border-[#b08a2e]/40 bg-[#fffdf7] px-3 py-1 text-sm font-bold text-[#b11226] dark:bg-red-500/10 dark:text-red-200">
         Perfil ficticio
       </p>
       <div className="mt-5 grid gap-6 rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:grid-cols-[auto_1fr] dark:border-slate-800 dark:bg-slate-900">
-        <div className="grid size-24 place-items-center rounded-xl border border-yellow-300/80 bg-[#00145f] text-2xl font-black text-yellow-100">
+        <div className="grid size-24 place-items-center rounded-xl border-2 border-black bg-white text-2xl font-black text-[#b11226] dark:border-stone-200">
           {business.initials}
         </div>
         <div>

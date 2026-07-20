@@ -15,13 +15,13 @@ export function SearchPanel() {
   return (
     <form
       action="/buscar"
-      className="grid gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-xl shadow-slate-900/10 sm:grid-cols-[1.5fr_1fr_1fr_auto] dark:border-slate-800 dark:bg-slate-900 dark:shadow-black/20"
+      className="grid gap-3 rounded-xl border border-stone-200 bg-white p-3 shadow-xl shadow-stone-900/10 sm:grid-cols-[1.5fr_1fr_1fr_auto] dark:border-stone-800 dark:bg-stone-950 dark:shadow-black/20"
     >
       <label className="sr-only" htmlFor="q">
         Buscar servicio, producto o profesional
       </label>
-      <div className="flex min-h-12 items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 dark:border-slate-700 dark:bg-slate-950">
-        <Search size={18} className="text-slate-500" aria-hidden="true" />
+      <div className="flex min-h-12 items-center gap-2 rounded-lg border border-stone-200 bg-[#fffdf7] px-3 dark:border-stone-700 dark:bg-black">
+        <Search size={18} className="text-[#b11226]" aria-hidden="true" />
         <input
           id="q"
           name="q"
@@ -39,7 +39,7 @@ export function SearchPanel() {
         name="department"
         value={department}
         onChange={(event) => setDepartment(event.target.value)}
-        className="min-h-12 rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm font-medium text-slate-800 outline-none focus:border-slate-400 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+        className="min-h-12 rounded-lg border border-stone-200 bg-[#fffdf7] px-3 text-sm font-medium text-slate-800 outline-none focus:border-[#b08a2e] dark:border-stone-700 dark:bg-black dark:text-slate-100"
       >
         <option value="">Departamento</option>
         {departments.map((item) => (
@@ -55,7 +55,7 @@ export function SearchPanel() {
       <select
         id="city"
         name="city"
-        className="min-h-12 rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm font-medium text-slate-800 outline-none focus:border-slate-400 disabled:text-slate-400 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+        className="min-h-12 rounded-lg border border-stone-200 bg-[#fffdf7] px-3 text-sm font-medium text-slate-800 outline-none focus:border-[#b08a2e] disabled:text-slate-400 dark:border-stone-700 dark:bg-black dark:text-slate-100"
         disabled={!department}
       >
         <option value="">Ciudad</option>

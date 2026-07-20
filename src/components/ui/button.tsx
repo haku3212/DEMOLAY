@@ -41,7 +41,7 @@ const baseButton =
 const buttonVariants = {
   primary: cn(
     baseButton,
-    "bg-[#9b0000] text-white shadow-sm hover:bg-[#7d0000] focus-visible:outline-[#9b0000] dark:bg-red-700 dark:text-white dark:hover:bg-red-600"
+    "bg-[#b11226] text-white shadow-sm hover:bg-[#8f0d1e] focus-visible:outline-[#b11226] dark:bg-[#b11226] dark:text-white dark:hover:bg-[#c91930]"
   ),
   secondary: cn(
     baseButton,

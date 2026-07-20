@@ -8,9 +8,9 @@ import { createPhoneUrl, createWhatsAppUrl } from "@/lib/utils";
 
 export function BusinessCard({ business }: { business: DemoBusiness }) {
   return (
-    <article className="flex h-full flex-col rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
+    <article className="flex h-full flex-col rounded-xl border border-stone-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-[#b08a2e]/70 hover:shadow-md dark:border-stone-800 dark:bg-stone-950">
       <div className="flex items-start gap-3">
-        <div className="grid size-14 shrink-0 place-items-center rounded-lg border border-yellow-300/80 bg-[#00145f] text-sm font-black text-white shadow-sm">
+        <div className="grid size-14 shrink-0 place-items-center rounded-lg border-2 border-black bg-white text-sm font-black text-[#b11226] shadow-sm dark:border-stone-200">
           {business.initials}
         </div>
         <div className="min-w-0">
