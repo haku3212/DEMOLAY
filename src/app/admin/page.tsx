@@ -1,5 +1,6 @@
 import { FilePenLine, ShieldCheck, UsersRound } from "lucide-react";
 
+import { AdminLogoutButton } from "@/components/admin-logout-button";
 import { ButtonLink } from "@/components/ui/button";
 import { demoBusinesses } from "@/lib/demo-data";
 import { createSupabaseServerClient, hasSupabaseServerConfig } from "@/lib/supabase/server";
@@ -16,15 +17,20 @@ export default async function AdminPage() {
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <p className="text-sm font-bold uppercase tracking-normal text-[#b11226] dark:text-stone-100">
-        Administracion
-      </p>
-      <h1 className="mt-3 text-4xl font-black text-slate-950 dark:text-white">
-        Panel de carga y mejoras
-      </h1>
-      <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-        En esta version inicial se muestra una vista ficticia del panel. La carga real de datos quedara protegida con Supabase Auth y permisos administrativos.
-      </p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p className="text-sm font-bold uppercase tracking-normal text-[#b11226] dark:text-stone-100">
+            Administracion
+          </p>
+          <h1 className="mt-3 text-4xl font-black text-slate-950 dark:text-white">
+            Panel de solicitudes
+          </h1>
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300">
+            Este panel esta protegido por contrasena administrativa. Desde aqui puedes revisar las solicitudes recibidas.
+          </p>
+        </div>
+        <AdminLogoutButton />
+      </div>
 
       <div className="mt-8 grid gap-4 md:grid-cols-3">
         <Metric icon={<UsersRound size={22} />} label="Perfiles ficticios" value={demoBusinesses.length.toString()} />

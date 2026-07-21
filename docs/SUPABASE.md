@@ -30,6 +30,8 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 NEXT_PUBLIC_SITE_URL=https://tu-dominio.vercel.app
+ADMIN_PASSWORD=
+ADMIN_SESSION_SECRET=
 ```
 
 ## 4. Probar
@@ -37,7 +39,7 @@ NEXT_PUBLIC_SITE_URL=https://tu-dominio.vercel.app
 1. Abre `/registrar`.
 2. Envia una solicitud con foto.
 3. Abre Supabase y revisa `business_submissions`.
-4. Abre `/admin` para ver las solicitudes desde la app.
+4. Abre `/iniciar-sesion`, entra con `ADMIN_PASSWORD` y luego revisa `/admin`.
 
 ## Nota
 

@@ -141,6 +141,8 @@ NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY
 SUPABASE_SERVICE_ROLE_KEY
 NEXT_PUBLIC_SITE_URL
+ADMIN_PASSWORD
+ADMIN_SESSION_SECRET
 ```
 
 4. Vuelve a desplegar en Vercel.
@@ -150,3 +152,6 @@ Cuando Supabase este conectado:
 - `/registrar` guardara solicitudes reales.
 - `/admin` mostrara las solicitudes pendientes.
 - Las fotos se subiran al bucket `business-profile-images`.
+- `/admin` estara protegido con la contrasena `ADMIN_PASSWORD`.
+
+Genera `ADMIN_SESSION_SECRET` como una cadena larga y aleatoria. Ejemplo: 32 caracteres o mas.
