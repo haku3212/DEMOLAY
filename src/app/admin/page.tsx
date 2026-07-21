@@ -30,7 +30,7 @@ export default function AdminPage() {
       <div className="mt-8 rounded-xl border border-[#b08a2e]/50 bg-white p-5 shadow-sm dark:border-[#b08a2e]/30 dark:bg-zinc-950">
         <h2 className="text-2xl font-black text-slate-950 dark:text-white">Proxima fase</h2>
         <p className="mt-3 leading-7 text-slate-600 dark:text-slate-300">
-          Aqui se conectaran formularios internos para crear, editar, aprobar, suspender y actualizar fichas sin exponer registro publico.
+          Aqui se conectaran las solicitudes enviadas por hermanos para revisar, editar, aprobar, suspender y actualizar fichas.
         </p>
         <ButtonLink href="/buscar" variant="secondary" className="mt-5">
           Ver directorio publico

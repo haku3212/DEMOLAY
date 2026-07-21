@@ -83,7 +83,7 @@ src/
     perfil/[slug]/page.tsx   Perfil publico individual
     admin/page.tsx           Panel administrativo inicial
     iniciar-sesion/page.tsx  Acceso administrativo futuro
-    registrar/page.tsx       Aviso de registro publico desactivado
+    registrar/page.tsx       Formulario para enviar negocio o profesion
     contacto/page.tsx        Contacto y reportes
     privacidad/page.tsx      Politica de privacidad
     terminos/page.tsx        Terminos de uso

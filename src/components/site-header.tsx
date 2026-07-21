@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 const navigation = [
   { label: "Buscar", href: "/buscar" },
   { label: "Categorias", href: "/categorias" },
+  { label: "Agregar negocio", href: "/registrar" },
   { label: "Como funciona", href: "/#como-funciona" },
   { label: "Acceso admin", href: "/iniciar-sesion" }
 ];
@@ -70,7 +71,7 @@ export function SiteHeader() {
           >
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
-          <ButtonLink href="/admin">Panel admin</ButtonLink>
+          <ButtonLink href="/registrar">Agregar negocio</ButtonLink>
         </div>
 
         <button
@@ -110,8 +111,8 @@ export function SiteHeader() {
             >
               {isDark ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-            <ButtonLink href="/admin" onClick={() => setIsOpen(false)}>
-              Panel admin
+            <ButtonLink href="/registrar" onClick={() => setIsOpen(false)}>
+              Agregar negocio
             </ButtonLink>
           </div>
         </nav>

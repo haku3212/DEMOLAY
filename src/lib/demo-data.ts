@@ -239,22 +239,14 @@ export const demoBusinesses: DemoBusiness[] = [
 export const howItWorks = [
   {
     title: "Busca dentro del directorio",
-    description: "Escribe una profesion, producto, oficio o servicio y encuentra apoyo cercano."
+    description: "Escribe una profesion, producto, oficio o servicio y filtra por ubicacion."
   },
   {
     title: "Revisa el perfil",
-    description: "Consulta datos previamente cargados para acercarte con respeto y confianza."
+    description: "Consulta datos de contacto, rubro, ciudad y descripcion del servicio."
   },
   {
     title: "Contacta directo",
-    description: "Abre WhatsApp o llama recordando que un hermano DeMolay nunca camina solo."
+    description: "Abre WhatsApp o llama sin intermediarios, pagos internos ni chat adicional."
   }
-];
-
-export const brotherhoodQuotes = [
-  "Un hermano DeMolay nunca camina solo.",
-  "La distancia separa cuerpos, pero nunca una verdadera hermandad.",
-  "La fraternidad no se hereda; se construye con respeto y confianza.",
-  "Los hermanos se apoyan en las victorias y tambien en las dificultades.",
-  "Una logia forma miembros; una hermandad forma personas."
 ];

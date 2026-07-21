@@ -2,7 +2,7 @@
 
 ## Vision
 
-Work DeMolay sera un directorio web responsive para encontrar profesionales, negocios, oficios, productos y emprendimientos de una comunidad de hermanos DeMolay en Bolivia. La primera version no sera marketplace: no tendra pagos internos, chat propio ni registro publico de emprendimientos. Su funcion central sera publicar perfiles cargados y administrados por el responsable del sistema, y facilitar contacto directo por WhatsApp o llamada.
+Work DeMolay sera un directorio web responsive para encontrar profesionales, negocios, oficios, productos y emprendimientos de una comunidad de hermanos DeMolay en Bolivia. La primera version no sera marketplace: no tendra pagos internos ni chat propio. Su funcion central sera recibir solicitudes de perfiles, revisarlas antes de publicarlas y facilitar contacto directo por WhatsApp o llamada.
 
 ## Arquitectura tecnica
 

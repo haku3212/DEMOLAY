@@ -5,7 +5,6 @@ import { BusinessCard } from "@/components/business-card";
 import { SearchPanel } from "@/components/search-panel";
 import { ButtonLink } from "@/components/ui/button";
 import {
-  brotherhoodQuotes,
   demoBusinesses,
   featuredCategories,
   howItWorks
@@ -25,11 +24,8 @@ export default function Home() {
               Encuentra profesionales, negocios y emprendimientos cerca de ti
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-              Work DeMolay conecta a la comunidad con perfiles curados por administracion, para que la hermandad tambien sea apoyo, resiliencia y servicio en la vida diaria.
+              Work DeMolay conecta a la comunidad con negocios, profesiones y servicios publicados para contactar directo por WhatsApp o llamada.
             </p>
-            <blockquote className="mt-5 max-w-2xl border-l-4 border-[#b11226] pl-4 text-base font-semibold leading-7 text-stone-900 dark:text-stone-100">
-              Un hermano DeMolay nunca camina solo.
-            </blockquote>
 
             <div className="mt-8">
               <SearchPanel />
@@ -40,8 +36,8 @@ export default function Home() {
                 Ver directorio
                 <ArrowRight size={18} aria-hidden="true" />
               </ButtonLink>
-              <ButtonLink href="/admin" variant="secondary">
-                Acceso administrativo
+              <ButtonLink href="/registrar" variant="secondary">
+                Agregar mi negocio
               </ButtonLink>
             </div>
           </div>
@@ -57,7 +53,7 @@ export default function Home() {
                     </p>
                     <p className="mt-1 text-2xl font-black">Directorio de hermanos y servicios</p>
                     <p className="mt-3 text-sm leading-6 text-white/80">
-                      La fraternidad no se hereda; se construye con respeto y confianza.
+                      Registra negocios, profesiones, oficios y emprendimientos con contacto directo.
                     </p>
                   </div>
                 </div>
@@ -66,7 +62,7 @@ export default function Home() {
                 {[
                   ["9", "perfiles ficticios"],
                   ["9", "departamentos listos"],
-                  ["Admin", "carga controlada"]
+                  ["Revision", "antes de publicar"]
                 ].map(([value, label]) => (
                   <div key={label} className="rounded-lg border border-stone-200 bg-[#fffdf7] p-4 dark:border-stone-800 dark:bg-black">
                     <p className="text-3xl font-black text-[#b11226] dark:text-stone-100">{value}</p>
@@ -77,31 +73,13 @@ export default function Home() {
               <div className="mt-5 rounded-lg border border-[#b08a2e]/50 bg-[#111111] p-5 text-white">
                 <div className="flex items-center gap-3">
                   <Sparkles size={24} className="text-[#d2b15f]" aria-hidden="true" />
-                  <p className="text-lg font-black">Servicio, confianza y fraternidad</p>
+                  <p className="text-lg font-black">Servicios, contactos y oportunidades</p>
                 </div>
                 <p className="mt-3 text-sm leading-6 opacity-80">
-                  Perfiles organizados para encontrar apoyo profesional dentro de la comunidad, en las victorias y tambien en las dificultades.
+                  Perfiles organizados para encontrar servicios y compartir informacion de contacto clara.
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-[#b08a2e]/40 bg-[#111111] py-10 text-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-sm font-bold uppercase tracking-normal text-[#d2b15f]">
-            Hermandad y resiliencia
-          </p>
-          <div className="mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-5">
-            {brotherhoodQuotes.map((quote) => (
-              <blockquote
-                key={quote}
-                className="rounded-lg border border-white/10 bg-white/5 p-4 text-sm font-semibold leading-6 text-white/90"
-              >
-                {quote}
-              </blockquote>
-            ))}
           </div>
         </div>
       </section>
@@ -194,14 +172,14 @@ export default function Home() {
             <div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 size={22} aria-hidden="true" />
-                <h3 className="text-xl font-black">La informacion se carga y revisa desde administracion</h3>
+                <h3 className="text-xl font-black">Los hermanos pueden enviar sus datos para revision</h3>
               </div>
               <p className="mt-2 max-w-2xl text-sm leading-6 opacity-80">
-                Asi el directorio se mantiene ordenado, confiable y sin formularios publicos para cargar datos.
+                Cada solicitud queda lista para revision antes de publicarse como perfil del directorio.
               </p>
             </div>
-            <ButtonLink href="/admin" className="mt-5 md:mt-0">
-              Ir al panel
+            <ButtonLink href="/registrar" className="mt-5 md:mt-0">
+              Agregar negocio
             </ButtonLink>
           </div>
         </div>
