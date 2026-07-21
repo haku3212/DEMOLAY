@@ -124,3 +124,29 @@ tu-usuario/work-demolay
 ```
 
 Tambien se necesita GitHub CLI (`gh`) instalado o un remoto Git configurado manualmente.
+
+## Conectar Supabase
+
+1. Crea un proyecto en Supabase.
+2. En el SQL Editor ejecuta:
+
+```text
+supabase/migrations/0001_initial_schema.sql
+```
+
+3. Copia las variables del proyecto y agregalas en Vercel:
+
+```text
+NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY
+NEXT_PUBLIC_SITE_URL
+```
+
+4. Vuelve a desplegar en Vercel.
+
+Cuando Supabase este conectado:
+
+- `/registrar` guardara solicitudes reales.
+- `/admin` mostrara las solicitudes pendientes.
+- Las fotos se subiran al bucket `business-profile-images`.

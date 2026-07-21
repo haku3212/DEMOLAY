@@ -4,33 +4,18 @@ import { CheckCircle2, ImagePlus } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/button";
 import { featuredCategories, departments, citiesByDepartment } from "@/lib/demo-data";
+import {
+  ALLOWED_PROFILE_IMAGE_TYPES,
+  MAX_PROFILE_IMAGE_SIZE,
+  submissionSchema,
+  type SubmissionFormValues
+} from "@/lib/validations/submission";
 
-const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
-const allowedImageTypes = ["image/jpeg", "image/png", "image/webp"];
-
-const registrationSchema = z.object({
-  owner: z.string().min(3, "Escribe tu nombre completo."),
-  businessName: z.string().min(3, "Escribe el nombre del negocio o profesion."),
-  category: z.string().min(1, "Selecciona una categoria."),
-  specialty: z.string().min(3, "Describe tu especialidad u oficio."),
-  department: z.string().min(1, "Selecciona un departamento."),
-  city: z.string().min(1, "Selecciona una ciudad."),
-  phone: z.string().min(7, "Escribe un telefono valido."),
-  whatsapp: z.string().min(7, "Escribe un WhatsApp valido."),
-  description: z.string().min(20, "Agrega una descripcion de al menos 20 caracteres."),
-  authorization: z.boolean().refine((value) => value, {
-    message: "Debes autorizar el envio de esta informacion."
-  })
-});
-
-type RegistrationFormValues = z.infer<typeof registrationSchema>;
-
-const defaultValues: Partial<RegistrationFormValues> = {
+const defaultValues: Partial<SubmissionFormValues> = {
   owner: "",
   businessName: "",
   category: "",
@@ -48,6 +33,8 @@ export function RegistrationForm() {
   const [imageName, setImageName] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const [imageError, setImageError] = useState("");
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [submitMessage, setSubmitMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   const {
@@ -56,8 +43,8 @@ export function RegistrationForm() {
     reset,
     setValue,
     formState: { errors, isSubmitting }
-  } = useForm<RegistrationFormValues>({
-    resolver: zodResolver(registrationSchema),
+  } = useForm<SubmissionFormValues>({
+    resolver: zodResolver(submissionSchema),
     defaultValues
   });
 
@@ -78,18 +65,21 @@ export function RegistrationForm() {
     if (!file) {
       setImageName("");
       setImagePreview("");
+      setSelectedImage(null);
       return;
     }
 
-    if (!allowedImageTypes.includes(file.type)) {
+    if (!ALLOWED_PROFILE_IMAGE_TYPES.includes(file.type)) {
       setImageError("La foto debe ser JPG, PNG o WebP.");
       event.target.value = "";
+      setSelectedImage(null);
       return;
     }
 
-    if (file.size > MAX_IMAGE_SIZE) {
+    if (file.size > MAX_PROFILE_IMAGE_SIZE) {
       setImageError("La foto no debe superar 2 MB.");
       event.target.value = "";
+      setSelectedImage(null);
       return;
     }
 
@@ -98,10 +88,42 @@ export function RegistrationForm() {
     }
 
     setImageName(file.name);
+    setSelectedImage(file);
     setImagePreview(URL.createObjectURL(file));
   }
 
-  function onSubmit(values: RegistrationFormValues) {
+  async function onSubmit(values: SubmissionFormValues) {
+    const formData = new FormData();
+    formData.append("owner", values.owner);
+    formData.append("businessName", values.businessName);
+    formData.append("category", values.category);
+    formData.append("specialty", values.specialty);
+    formData.append("department", values.department);
+    formData.append("city", values.city);
+    formData.append("phone", values.phone);
+    formData.append("whatsapp", values.whatsapp);
+    formData.append("description", values.description);
+    formData.append("authorization", String(values.authorization));
+
+    if (selectedImage) {
+      formData.append("profileImage", selectedImage);
+    }
+
+    try {
+      const response = await fetch("/api/submissions", {
+        method: "POST",
+        body: formData
+      });
+
+      if (response.ok) {
+        setSubmitMessage("Tu solicitud fue enviada y quedo pendiente de revision.");
+        finishSuccessfulSubmit();
+        return;
+      }
+    } catch {
+      // Si Supabase o la red fallan, mantenemos el respaldo local.
+    }
+
     const storedRequests = JSON.parse(
       window.localStorage.getItem("work-demolay-requests") ?? "[]"
     ) as unknown[];
@@ -120,10 +142,18 @@ export function RegistrationForm() {
       ])
     );
 
+    setSubmitMessage(
+      "Supabase aun no esta conectado. La solicitud quedo guardada como prueba en este navegador."
+    );
+    finishSuccessfulSubmit();
+  }
+
+  function finishSuccessfulSubmit() {
     setSubmitted(true);
     reset(defaultValues);
     setSelectedDepartment("");
     setImageName("");
+    setSelectedImage(null);
     setImagePreview("");
   }
 
@@ -135,7 +165,7 @@ export function RegistrationForm() {
           Solicitud enviada
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-slate-600 dark:text-slate-300">
-          Tu negocio o profesion quedo guardado como solicitud de prueba en este navegador. En la siguiente fase se conectara a Supabase para revision administrativa real.
+          {submitMessage}
         </p>
         <Button className="mt-6" onClick={() => setSubmitted(false)}>
           Enviar otra solicitud
