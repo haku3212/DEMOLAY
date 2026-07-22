@@ -1,6 +1,7 @@
 import { FilePenLine, ShieldCheck, UsersRound } from "lucide-react";
 
 import { AdminLogoutButton } from "@/components/admin-logout-button";
+import { LocalSubmissionsPanel } from "@/components/local-submissions-panel";
 import { ButtonLink } from "@/components/ui/button";
 import { demoBusinesses } from "@/lib/demo-data";
 import { createSupabaseServerClient, hasSupabaseServerConfig } from "@/lib/supabase/server";
@@ -90,15 +91,18 @@ export default async function AdminPage() {
             )}
           </div>
         ) : (
-          <div className="mt-5 rounded-lg border border-dashed border-[#b08a2e]/60 bg-[#fffdf7] p-5 dark:bg-black">
-            <h3 className="font-black text-slate-950 dark:text-white">
-              Falta conectar Supabase
-            </h3>
-            <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
-              Agrega `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` y
-              `SUPABASE_SERVICE_ROLE_KEY` en Vercel para guardar y revisar solicitudes reales.
-            </p>
-          </div>
+          <>
+            <div className="mt-5 rounded-lg border border-dashed border-[#b08a2e]/60 bg-[#fffdf7] p-5 dark:bg-black">
+              <h3 className="font-black text-slate-950 dark:text-white">
+                Falta conectar Supabase
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                Agrega `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` y
+                `SUPABASE_SERVICE_ROLE_KEY` en Vercel para guardar y revisar solicitudes reales.
+              </p>
+            </div>
+            <LocalSubmissionsPanel />
+          </>
         )}
       </div>
 
