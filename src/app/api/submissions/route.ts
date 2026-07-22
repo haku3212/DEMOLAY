@@ -114,7 +114,7 @@ export async function POST(request: Request) {
     description: parsed.data.description,
     image_url: imageUrl,
     image_path: imagePath,
-    authorization: parsed.data.authorization,
+    publish_authorization: parsed.data.authorization,
     status: "pending"
   };
 

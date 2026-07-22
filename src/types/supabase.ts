@@ -12,7 +12,7 @@ export type BusinessSubmissionInsert = {
   description: string;
   image_url?: string | null;
   image_path?: string | null;
-  authorization: boolean;
+  publish_authorization: boolean;
   status?: BusinessSubmissionStatus;
 };
 

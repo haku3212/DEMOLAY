@@ -1,13 +1,19 @@
 create extension if not exists "pgcrypto";
 
-create type public.business_status as enum (
-  'pending',
-  'approved',
-  'rejected',
-  'suspended'
-);
+do $$
+begin
+  if not exists (select 1 from pg_type where typname = 'business_status') then
+    create type public.business_status as enum (
+      'pending',
+      'approved',
+      'rejected',
+      'suspended'
+    );
+  end if;
+end;
+$$;
 
-create table public.business_submissions (
+create table if not exists public.business_submissions (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
@@ -22,16 +28,16 @@ create table public.business_submissions (
   description text not null,
   image_url text,
   image_path text,
-  authorization boolean not null default false,
+  publish_authorization boolean not null default false,
   status public.business_status not null default 'pending',
   reviewed_at timestamptz,
   reviewed_by uuid,
   review_notes text
 );
 
-create index business_submissions_status_idx on public.business_submissions (status);
-create index business_submissions_created_at_idx on public.business_submissions (created_at desc);
-create index business_submissions_location_idx on public.business_submissions (department, city);
+create index if not exists business_submissions_status_idx on public.business_submissions (status);
+create index if not exists business_submissions_created_at_idx on public.business_submissions (created_at desc);
+create index if not exists business_submissions_location_idx on public.business_submissions (department, city);
 
 create or replace function public.set_updated_at()
 returns trigger
@@ -43,6 +49,8 @@ begin
 end;
 $$;
 
+drop trigger if exists business_submissions_set_updated_at on public.business_submissions;
+
 create trigger business_submissions_set_updated_at
 before update on public.business_submissions
 for each row
@@ -50,21 +58,24 @@ execute function public.set_updated_at();
 
 alter table public.business_submissions enable row level security;
 
+drop policy if exists "Anyone can create pending submissions" on public.business_submissions;
 create policy "Anyone can create pending submissions"
 on public.business_submissions
 for insert
 to anon, authenticated
 with check (
-  authorization = true
+  publish_authorization = true
   and status = 'pending'
 );
 
+drop policy if exists "Authenticated users can read submissions" on public.business_submissions;
 create policy "Authenticated users can read submissions"
 on public.business_submissions
 for select
 to authenticated
 using (true);
 
+drop policy if exists "Authenticated users can review submissions" on public.business_submissions;
 create policy "Authenticated users can review submissions"
 on public.business_submissions
 for update
@@ -82,12 +93,14 @@ values (
 )
 on conflict (id) do nothing;
 
+drop policy if exists "Anyone can upload profile images" on storage.objects;
 create policy "Anyone can upload profile images"
 on storage.objects
 for insert
 to anon, authenticated
 with check (bucket_id = 'business-profile-images');
 
+drop policy if exists "Anyone can view profile images" on storage.objects;
 create policy "Anyone can view profile images"
 on storage.objects
 for select
