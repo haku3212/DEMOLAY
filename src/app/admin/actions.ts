@@ -44,6 +44,7 @@ export async function updateSubmissionStatus(formData: FormData) {
 
   revalidatePath("/");
   revalidatePath("/admin");
+  revalidatePath(`/admin/${id}`);
   revalidatePath("/buscar");
   revalidatePath("/categorias");
 }

@@ -1,6 +1,7 @@
 import { FilePenLine, ShieldCheck, UsersRound } from "lucide-react";
 
 import { AdminLogoutButton } from "@/components/admin-logout-button";
+import { AdminStatusForm } from "@/components/admin-status-form";
 import { LocalSubmissionsPanel } from "@/components/local-submissions-panel";
 import { ButtonLink } from "@/components/ui/button";
 import { demoBusinesses } from "@/lib/demo-data";
@@ -10,7 +11,6 @@ import {
   hasSupabaseServerConfig
 } from "@/lib/supabase/server";
 import type { BusinessSubmission } from "@/types/supabase";
-import { updateSubmissionStatus } from "./actions";
 
 export const metadata = {
   title: "Panel admin",
@@ -109,9 +109,12 @@ export default async function AdminPage() {
                     WhatsApp: {submission.whatsapp} / Telefono: {submission.phone}
                   </p>
                   <div className="mt-4 flex flex-wrap gap-2">
-                    <StatusForm id={submission.id} status="approved" label="Aprobar y publicar" />
-                    <StatusForm id={submission.id} status="rejected" label="Rechazar" variant="secondary" />
-                    <StatusForm id={submission.id} status="suspended" label="Ocultar" variant="ghost" />
+                    <ButtonLink href={`/admin/${submission.id}`} variant="secondary">
+                      Revisar
+                    </ButtonLink>
+                    <AdminStatusForm id={submission.id} status="approved" label="Aprobar y publicar" />
+                    <AdminStatusForm id={submission.id} status="rejected" label="Rechazar" variant="secondary" />
+                    <AdminStatusForm id={submission.id} status="suspended" label="Ocultar" variant="ghost" />
                   </div>
                 </article>
               ))
@@ -203,37 +206,5 @@ function DiagnosticItem({ label, value }: { label: string; value: string }) {
         {value}
       </p>
     </div>
-  );
-}
-
-function StatusForm({
-  id,
-  status,
-  label,
-  variant = "primary"
-}: {
-  id: string;
-  status: "approved" | "rejected" | "suspended";
-  label: string;
-  variant?: "primary" | "secondary" | "ghost";
-}) {
-  const className =
-    variant === "primary"
-      ? "bg-[#b11226] text-white hover:bg-[#8f0d1e]"
-      : variant === "secondary"
-        ? "border border-slate-200 bg-white text-slate-900 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50"
-        : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800";
-
-  return (
-    <form action={updateSubmissionStatus}>
-      <input type="hidden" name="id" value={id} />
-      <input type="hidden" name="status" value={status} />
-      <button
-        type="submit"
-        className={`${className} inline-flex min-h-10 items-center justify-center rounded-lg px-3 py-2 text-sm font-semibold transition`}
-      >
-        {label}
-      </button>
-    </form>
   );
 }
