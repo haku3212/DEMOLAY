@@ -36,27 +36,11 @@ export type DemoBusiness = {
 // Cuando tengas la lista real, cambia aqui nombres, categorias, ciudades,
 // telefonos y WhatsApp. Los enlaces se generan automaticamente en las tarjetas.
 export const departments = [
-  "Beni",
-  "Santa Cruz",
-  "La Paz",
-  "Cochabamba",
-  "Chuquisaca",
-  "Oruro",
-  "Pando",
-  "Potosi",
-  "Tarija"
+  "Beni"
 ];
 
 export const citiesByDepartment: Record<string, string[]> = {
-  Beni: ["Trinidad", "Riberalta", "Guayaramerin", "San Borja"],
-  "Santa Cruz": ["Santa Cruz de la Sierra", "Montero", "Warnes"],
-  "La Paz": ["La Paz", "El Alto", "Viacha"],
-  Cochabamba: ["Cochabamba", "Quillacollo", "Sacaba"],
-  Chuquisaca: ["Sucre"],
-  Oruro: ["Oruro"],
-  Pando: ["Cobija"],
-  Potosi: ["Potosi", "Uyuni"],
-  Tarija: ["Tarija", "Yacuiba"]
+  Beni: ["Trinidad", "Riberalta", "Guayaramerin", "San Borja"]
 };
 
 export const featuredCategories: FeaturedCategory[] = [
@@ -145,13 +129,13 @@ export const demoBusinesses: DemoBusiness[] = [
   },
   {
     id: "demo-3",
-    name: "Soluciones Civiles Andina",
+    name: "Constructora Moxos",
     owner: "Ing. Camilo Vera",
-    category: "Ingenieria",
+    category: "Construccion",
     specialty: "Obras civiles",
-    city: "La Paz",
-    department: "La Paz",
-    description: "Asesoria tecnica, presupuestos y supervision de construcciones.",
+    city: "Trinidad",
+    department: "Beni",
+    description: "Asesoria tecnica, presupuestos y supervision de construcciones en el Beni.",
     phone: "73344556",
     whatsapp: "73344556",
     initials: "SA"
@@ -160,10 +144,10 @@ export const demoBusinesses: DemoBusiness[] = [
     id: "demo-4",
     name: "Taller Ruta Norte",
     owner: "Daniel Paz",
-    category: "Mecanica",
+    category: "Automotriz",
     specialty: "Mecanica automotriz",
-    city: "Santa Cruz de la Sierra",
-    department: "Santa Cruz",
+    city: "Guayaramerin",
+    department: "Beni",
     description: "Diagnostico, mantenimiento preventivo y reparacion automotriz.",
     phone: "74455667",
     whatsapp: "74455667",
@@ -171,12 +155,12 @@ export const demoBusinesses: DemoBusiness[] = [
   },
   {
     id: "demo-5",
-    name: "Jabones Aurora",
+    name: "Jabones Aurora Beni",
     owner: "Lucia Mendez",
     category: "Productos artesanales",
     specialty: "Jabones naturales",
-    city: "Cochabamba",
-    department: "Cochabamba",
+    city: "San Borja",
+    department: "Beni",
     description: "Jabones artesanales de prueba, empaques para regalos y pedidos pequenos.",
     phone: "75566778",
     whatsapp: "75566778",
@@ -201,8 +185,8 @@ export const demoBusinesses: DemoBusiness[] = [
     owner: "Nicolas Salvatierra",
     category: "Belleza",
     specialty: "Barberia y peluqueria",
-    city: "Santa Cruz de la Sierra",
-    department: "Santa Cruz",
+    city: "Trinidad",
+    department: "Beni",
     description: "Cortes clasicos, arreglo de barba y atencion por reserva.",
     phone: "77788990",
     whatsapp: "77788990",
@@ -214,8 +198,8 @@ export const demoBusinesses: DemoBusiness[] = [
     owner: "Ruben Aguilar",
     category: "Transporte",
     specialty: "Traslados urbanos",
-    city: "La Paz",
-    department: "La Paz",
+    city: "Riberalta",
+    department: "Beni",
     description: "Servicio ficticio de traslados, encomiendas pequenas y apoyo logistico.",
     phone: "78899001",
     whatsapp: "78899001",

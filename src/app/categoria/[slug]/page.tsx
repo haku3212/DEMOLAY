@@ -1,7 +1,11 @@
 import { notFound } from "next/navigation";
 
 import { BusinessCard } from "@/components/business-card";
-import { demoBusinesses, featuredCategories } from "@/lib/demo-data";
+import { featuredCategories } from "@/lib/demo-data";
+import { getPublishedBusinesses } from "@/lib/directory";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;
@@ -25,10 +29,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     notFound();
   }
 
-  const relatedBusinesses = demoBusinesses.filter((business) => {
+  const publishedBusinesses = await getPublishedBusinesses();
+  const relatedBusinesses = publishedBusinesses.filter((business) => {
     return business.category.toLowerCase().includes(category.name.toLowerCase());
   });
-  const businesses = relatedBusinesses.length > 0 ? relatedBusinesses : demoBusinesses.slice(0, 2);
+  const businesses = relatedBusinesses.length > 0 ? relatedBusinesses : publishedBusinesses.slice(0, 2);
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -37,7 +42,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       </p>
       <h1 className="mt-3 text-4xl font-black text-slate-950 dark:text-white">{category.name}</h1>
       <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-        {category.description} Los resultados actuales son ficticios hasta conectar la base de datos.
+        {category.description} Resultados del piloto en Beni, incluyendo perfiles aprobados por administracion.
       </p>
       <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {businesses.map((business) => (

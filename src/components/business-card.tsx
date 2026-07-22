@@ -1,21 +1,35 @@
 import { MapPin, Phone, Store, UserRound } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 import { ButtonLink } from "@/components/ui/button";
-import type { DemoBusiness } from "@/lib/demo-data";
-import { createBusinessSlug, defaultWhatsAppMessage } from "@/lib/directory";
+import {
+  createBusinessSlug,
+  defaultWhatsAppMessage,
+  type DirectoryBusiness
+} from "@/lib/directory";
 import { createPhoneUrl, createWhatsAppUrl } from "@/lib/utils";
 
-export function BusinessCard({ business }: { business: DemoBusiness }) {
+export function BusinessCard({ business }: { business: DirectoryBusiness }) {
   return (
     <article className="flex h-full flex-col rounded-xl border border-stone-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-[#b08a2e]/70 hover:shadow-md dark:border-stone-800 dark:bg-stone-950">
       <div className="flex items-start gap-3">
-        <div className="grid size-14 shrink-0 place-items-center rounded-lg border-2 border-black bg-white text-sm font-black text-[#b11226] shadow-sm dark:border-stone-200">
-          {business.initials}
-        </div>
+        {business.imageUrl ? (
+          <Image
+            src={business.imageUrl}
+            alt={`Foto de ${business.name}`}
+            width={56}
+            height={56}
+            className="size-14 shrink-0 rounded-lg border-2 border-black object-cover shadow-sm dark:border-stone-200"
+          />
+        ) : (
+          <div className="grid size-14 shrink-0 place-items-center rounded-lg border-2 border-black bg-white text-sm font-black text-[#b11226] shadow-sm dark:border-stone-200">
+            {business.initials}
+          </div>
+        )}
         <div className="min-w-0">
           <p className="inline-flex rounded-full bg-red-50 px-2.5 py-1 text-xs font-bold text-red-800 dark:bg-red-500/10 dark:text-red-200">
-            Ficticio
+            {business.isFictional ? "Ficticio" : "Publicado"}
           </p>
           <h3 className="mt-2 text-lg font-black leading-tight text-slate-950 dark:text-white">
             <Link href={`/perfil/${createBusinessSlug(business.name)}`}>

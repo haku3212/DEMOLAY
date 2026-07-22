@@ -7,6 +7,9 @@ export const metadata = {
   description: "Busca negocios, profesionales, productos y servicios en Work DeMolay."
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 type SearchPageProps = {
   searchParams: Promise<{
     q?: string;
@@ -17,7 +20,7 @@ type SearchPageProps = {
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const filters = await searchParams;
-  const businesses = filterBusinesses(filters);
+  const businesses = await filterBusinesses(filters);
   const hasFilters = Boolean(filters.q || filters.department || filters.city);
 
   return (
@@ -29,7 +32,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         Buscar servicios y emprendimientos
       </h1>
       <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-        Esta primera version muestra datos ficticios cargados por administracion mientras se conecta Supabase.
+        Esta version piloto muestra servicios del Beni: perfiles aprobados por administracion y datos ficticios de prueba.
       </p>
       <div className="mt-8">
         <SearchPanel />
@@ -46,7 +49,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             No encontramos resultados
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-slate-600 dark:text-slate-300">
-            Prueba con otra palabra, cambia departamento o limpia la ciudad. Cuando cargues datos reales, este mismo buscador mostrara los contactos publicados.
+            Prueba con otra palabra o limpia la ciudad. Por ahora el piloto esta enfocado solo en el Beni.
           </p>
         </div>
       )}

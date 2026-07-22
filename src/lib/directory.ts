@@ -1,4 +1,22 @@
 import { demoBusinesses } from "@/lib/demo-data";
+import { createSupabaseServerClient, hasSupabaseServerConfig } from "@/lib/supabase/server";
+import type { BusinessSubmission } from "@/types/supabase";
+
+export type DirectoryBusiness = {
+  id: string;
+  name: string;
+  owner: string;
+  category: string;
+  specialty: string;
+  city: string;
+  department: string;
+  description: string;
+  phone: string;
+  whatsapp: string;
+  initials: string;
+  imageUrl?: string | null;
+  isFictional?: boolean;
+};
 
 export type BusinessFilters = {
   q?: string;
@@ -18,16 +36,30 @@ export function createBusinessSlug(name: string) {
     .replace(/^-|-$/g, "");
 }
 
-export function findBusinessBySlug(slug: string) {
-  return demoBusinesses.find((business) => createBusinessSlug(business.name) === slug);
+export async function getPublishedBusinesses() {
+  const approvedSubmissions = await getApprovedSubmissions();
+  const publishedBusinesses = approvedSubmissions.map(mapSubmissionToBusiness);
+  const beniDemoBusinesses = demoBusinesses.map((business) => ({
+    ...business,
+    imageUrl: null,
+    isFictional: true
+  }));
+
+  return [...publishedBusinesses, ...beniDemoBusinesses];
 }
 
-export function filterBusinesses(filters: BusinessFilters) {
+export async function findBusinessBySlug(slug: string) {
+  const businesses = await getPublishedBusinesses();
+  return businesses.find((business) => createBusinessSlug(business.name) === slug);
+}
+
+export async function filterBusinesses(filters: BusinessFilters) {
+  const businesses = await getPublishedBusinesses();
   const query = normalizeText(filters.q ?? "");
   const department = normalizeText(filters.department ?? "");
   const city = normalizeText(filters.city ?? "");
 
-  return demoBusinesses.filter((business) => {
+  return businesses.filter((business) => {
     const searchableText = normalizeText(
       [
         business.name,
@@ -47,6 +79,63 @@ export function filterBusinesses(filters: BusinessFilters) {
 
     return matchesQuery && matchesDepartment && matchesCity;
   });
+}
+
+async function getApprovedSubmissions() {
+  if (!hasSupabaseServerConfig()) {
+    return [];
+  }
+
+  const supabase = createSupabaseServerClient();
+
+  if (!supabase) {
+    return [];
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("business_submissions")
+      .select("*")
+      .eq("status", "approved")
+      .eq("department", "Beni")
+      .order("reviewed_at", { ascending: false, nullsFirst: false })
+      .order("created_at", { ascending: false });
+
+    if (error || !data) {
+      return [];
+    }
+
+    return data as BusinessSubmission[];
+  } catch {
+    return [];
+  }
+}
+
+function mapSubmissionToBusiness(submission: BusinessSubmission): DirectoryBusiness {
+  return {
+    id: submission.id,
+    name: submission.business_name,
+    owner: submission.owner_name,
+    category: submission.category,
+    specialty: submission.specialty,
+    city: submission.city,
+    department: submission.department,
+    description: submission.description,
+    phone: submission.phone,
+    whatsapp: submission.whatsapp,
+    initials: createInitials(submission.business_name),
+    imageUrl: submission.image_url,
+    isFictional: false
+  };
+}
+
+function createInitials(value: string) {
+  return value
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0]?.toUpperCase() ?? "")
+    .join("");
 }
 
 function normalizeText(value: string) {

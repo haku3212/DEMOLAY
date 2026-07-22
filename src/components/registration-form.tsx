@@ -20,7 +20,7 @@ const defaultValues: Partial<SubmissionFormValues> = {
   businessName: "",
   category: "",
   specialty: "",
-  department: "",
+  department: "Beni",
   city: "",
   phone: "",
   whatsapp: "",
@@ -29,7 +29,7 @@ const defaultValues: Partial<SubmissionFormValues> = {
 };
 
 export function RegistrationForm() {
-  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("Beni");
   const [imageName, setImageName] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const [imageError, setImageError] = useState("");
@@ -166,7 +166,7 @@ export function RegistrationForm() {
   function finishSuccessfulSubmit() {
     setSubmitted(true);
     reset(defaultValues);
-    setSelectedDepartment("");
+    setSelectedDepartment("Beni");
     setImageName("");
     setSelectedImage(null);
     setImagePreview("");

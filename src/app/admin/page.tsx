@@ -10,6 +10,7 @@ import {
   hasSupabaseServerConfig
 } from "@/lib/supabase/server";
 import type { BusinessSubmission } from "@/types/supabase";
+import { updateSubmissionStatus } from "./actions";
 
 export const metadata = {
   title: "Panel admin",
@@ -23,6 +24,7 @@ export default async function AdminPage() {
   const { submissions, errorMessage } = await getSubmissions();
   const diagnostics = getSupabaseServerDiagnostics();
   const pendingCount = submissions.filter((submission) => submission.status === "pending").length;
+  const approvedCount = submissions.filter((submission) => submission.status === "approved").length;
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -44,7 +46,7 @@ export default async function AdminPage() {
       <div className="mt-8 grid gap-4 md:grid-cols-3">
         <Metric icon={<UsersRound size={22} />} label="Perfiles ficticios" value={demoBusinesses.length.toString()} />
         <Metric icon={<ShieldCheck size={22} />} label="Solicitudes" value={submissions.length.toString()} />
-        <Metric icon={<FilePenLine size={22} />} label="Mejoras" value="Privadas" />
+        <Metric icon={<FilePenLine size={22} />} label="Aprobadas" value={approvedCount.toString()} />
       </div>
 
       <div className="mt-8 rounded-xl border border-stone-200 bg-white p-5 shadow-sm dark:border-stone-800 dark:bg-zinc-950">
@@ -106,6 +108,11 @@ export default async function AdminPage() {
                   <p className="mt-3 text-sm font-semibold text-slate-700 dark:text-slate-200">
                     WhatsApp: {submission.whatsapp} / Telefono: {submission.phone}
                   </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <StatusForm id={submission.id} status="approved" label="Aprobar y publicar" />
+                    <StatusForm id={submission.id} status="rejected" label="Rechazar" variant="secondary" />
+                    <StatusForm id={submission.id} status="suspended" label="Ocultar" variant="ghost" />
+                  </div>
                 </article>
               ))
             ) : (
@@ -133,7 +140,7 @@ export default async function AdminPage() {
       <div className="mt-8 rounded-xl border border-[#b08a2e]/50 bg-white p-5 shadow-sm dark:border-[#b08a2e]/30 dark:bg-zinc-950">
         <h2 className="text-2xl font-black text-slate-950 dark:text-white">Siguiente mejora</h2>
         <p className="mt-3 leading-7 text-slate-600 dark:text-slate-300">
-          El siguiente paso es agregar botones para aprobar, rechazar y publicar automaticamente cada solicitud como perfil visible.
+          Las solicitudes aprobadas se publican automaticamente en el directorio publico del Beni. Las rechazadas u ocultas no aparecen para visitantes.
         </p>
         <ButtonLink href="/buscar" variant="secondary" className="mt-5">
           Ver directorio publico
@@ -196,5 +203,37 @@ function DiagnosticItem({ label, value }: { label: string; value: string }) {
         {value}
       </p>
     </div>
+  );
+}
+
+function StatusForm({
+  id,
+  status,
+  label,
+  variant = "primary"
+}: {
+  id: string;
+  status: "approved" | "rejected" | "suspended";
+  label: string;
+  variant?: "primary" | "secondary" | "ghost";
+}) {
+  const className =
+    variant === "primary"
+      ? "bg-[#b11226] text-white hover:bg-[#8f0d1e]"
+      : variant === "secondary"
+        ? "border border-slate-200 bg-white text-slate-900 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50"
+        : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800";
+
+  return (
+    <form action={updateSubmissionStatus}>
+      <input type="hidden" name="id" value={id} />
+      <input type="hidden" name="status" value={status} />
+      <button
+        type="submit"
+        className={`${className} inline-flex min-h-10 items-center justify-center rounded-lg px-3 py-2 text-sm font-semibold transition`}
+      >
+        {label}
+      </button>
+    </form>
   );
 }

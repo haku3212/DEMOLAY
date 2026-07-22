@@ -5,12 +5,17 @@ import { BusinessCard } from "@/components/business-card";
 import { SearchPanel } from "@/components/search-panel";
 import { ButtonLink } from "@/components/ui/button";
 import {
-  demoBusinesses,
   featuredCategories,
   howItWorks
 } from "@/lib/demo-data";
+import { getPublishedBusinesses } from "@/lib/directory";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export default async function Home() {
+  const businesses = await getPublishedBusinesses();
+
   return (
     <>
       <section className="border-b border-stone-200 bg-[#fffdf7] dark:border-stone-800 dark:bg-stone-950">
@@ -60,8 +65,8 @@ export default function Home() {
               </div>
               <div className="grid gap-4 sm:grid-cols-3">
                 {[
-                  ["9", "perfiles ficticios"],
-                  ["9", "departamentos listos"],
+                  [businesses.length.toString(), "perfiles visibles"],
+                  ["Beni", "departamento piloto"],
                   ["Revision", "antes de publicar"]
                 ].map(([value, label]) => (
                   <div key={label} className="rounded-lg border border-stone-200 bg-[#fffdf7] p-4 dark:border-stone-800 dark:bg-black">
@@ -126,10 +131,10 @@ export default function Home() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm font-bold uppercase tracking-normal text-[#b11226] dark:text-red-300">
-                Datos ficticios
+                Directorio del Beni
               </p>
               <h2 className="mt-2 text-3xl font-black text-slate-950 dark:text-white">
-                Perfiles recientes
+                Perfiles recientes aprobados
               </h2>
             </div>
             <ButtonLink href="/buscar" variant="secondary">
@@ -138,7 +143,7 @@ export default function Home() {
           </div>
 
           <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {demoBusinesses.map((business) => (
+            {businesses.map((business) => (
               <BusinessCard key={business.id} business={business} />
             ))}
           </div>

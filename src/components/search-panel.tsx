@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { citiesByDepartment, departments } from "@/lib/demo-data";
 
 export function SearchPanel() {
-  const [department, setDepartment] = useState("");
+  const [department, setDepartment] = useState("Beni");
   const cities = useMemo(() => {
     return department ? citiesByDepartment[department] ?? [] : [];
   }, [department]);
