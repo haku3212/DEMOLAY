@@ -115,15 +115,35 @@ export function RegistrationForm() {
         body: formData
       });
 
+      const result = (await response.json().catch(() => null)) as {
+        message?: string;
+      } | null;
+
       if (response.ok) {
         setSubmitMessage("Tu solicitud fue enviada y quedo pendiente de revision.");
         finishSuccessfulSubmit();
         return;
       }
+
+      setSubmitMessage(
+        `No se pudo guardar en Supabase (${response.status}). ${
+          result?.message ?? "Revisa las variables de entorno en Vercel."
+        } La solicitud quedo guardada como respaldo en este navegador.`
+      );
+      saveLocalBackup(values);
+      finishSuccessfulSubmit();
+      return;
     } catch {
-      // Si Supabase o la red fallan, mantenemos el respaldo local.
+      setSubmitMessage(
+        "No se pudo conectar con el servidor. La solicitud quedo guardada como respaldo en este navegador."
+      );
     }
 
+    saveLocalBackup(values);
+    finishSuccessfulSubmit();
+  }
+
+  function saveLocalBackup(values: SubmissionFormValues) {
     const storedRequests = JSON.parse(
       window.localStorage.getItem("work-demolay-requests") ?? "[]"
     ) as unknown[];
@@ -141,11 +161,6 @@ export function RegistrationForm() {
         ...storedRequests
       ])
     );
-
-    setSubmitMessage(
-      "Supabase aun no esta conectado. La solicitud quedo guardada como prueba en este navegador."
-    );
-    finishSuccessfulSubmit();
   }
 
   function finishSuccessfulSubmit() {
