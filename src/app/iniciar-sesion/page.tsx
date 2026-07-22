@@ -11,14 +11,11 @@ export default function SignInPage() {
   return (
     <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
       <p className="text-sm font-bold uppercase tracking-normal text-[#b11226] dark:text-red-300">
-        Acceso protegido
+        Acceder
       </p>
       <h1 className="mt-3 text-4xl font-black text-slate-950 dark:text-white">
-        Iniciar sesion de administrador
+        Panel administrativo
       </h1>
-      <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-        Solo quien tenga la contrasena administrativa puede entrar a revisar solicitudes.
-      </p>
       <Suspense fallback={<LoginFallback />}>
         <AdminLoginForm />
       </Suspense>

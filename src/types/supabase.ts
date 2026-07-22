@@ -25,3 +25,18 @@ export type BusinessSubmission = BusinessSubmissionInsert & {
   reviewed_by: string | null;
   review_notes: string | null;
 };
+
+export type ProfileReportStatus = "pending" | "reviewed" | "dismissed";
+
+export type ProfileReport = {
+  id: string;
+  created_at: string;
+  profile_id: string;
+  profile_name: string;
+  profile_slug: string;
+  reporter_name: string | null;
+  reporter_contact: string | null;
+  reason: string;
+  status: ProfileReportStatus;
+  reviewed_at: string | null;
+};

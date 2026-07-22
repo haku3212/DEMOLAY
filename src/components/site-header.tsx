@@ -13,7 +13,7 @@ const navigation = [
   { label: "Categorias", href: "/categorias" },
   { label: "Agregar negocio", href: "/registrar" },
   { label: "Como funciona", href: "/#como-funciona" },
-  { label: "Acceso admin", href: "/iniciar-sesion" }
+  { label: "Acceder", href: "/iniciar-sesion" }
 ];
 
 export function SiteHeader() {

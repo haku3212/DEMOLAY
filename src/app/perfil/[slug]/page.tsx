@@ -1,10 +1,12 @@
-import { Clock, ExternalLink, MapPin, Phone, Share2, ShieldAlert } from "lucide-react";
+import { Clock, ExternalLink, MapPin, Phone } from "lucide-react";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 
+import { ProfileReportForm } from "@/components/profile-report-form";
+import { ShareProfileButton } from "@/components/share-profile-button";
 import { ButtonLink } from "@/components/ui/button";
 import { defaultWhatsAppMessage, findBusinessBySlug } from "@/lib/directory";
 import { createPhoneUrl, createWhatsAppUrl } from "@/lib/utils";
-import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -91,14 +93,12 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
               <Phone size={16} aria-hidden="true" />
               Llamar
             </ButtonLink>
-            <ButtonLink href={`/perfil/${slug}`} variant="ghost" className="border border-slate-200 dark:border-slate-700">
-              <Share2 size={16} aria-hidden="true" />
-              Compartir
-            </ButtonLink>
-            <ButtonLink href="/contacto" variant="ghost" className="border border-slate-200 dark:border-slate-700">
-              <ShieldAlert size={16} aria-hidden="true" />
-              Reportar informacion
-            </ButtonLink>
+            <ShareProfileButton title={business.name} path={`/perfil/${slug}`} />
+            <ProfileReportForm
+              profileId={business.id}
+              profileName={business.name}
+              profileSlug={slug}
+            />
           </div>
         </aside>
       </div>

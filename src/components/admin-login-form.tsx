@@ -63,9 +63,6 @@ export function AdminLoginForm() {
       <Button type="submit" className="mt-5 w-full" disabled={isSubmitting}>
         {isSubmitting ? "Ingresando..." : "Entrar al panel"}
       </Button>
-      <p className="mt-3 text-xs leading-5 text-slate-500">
-        En local, si no configuraste variables, la clave temporal es `admin123`. En Vercel debes usar `ADMIN_PASSWORD`.
-      </p>
     </form>
   );
 }

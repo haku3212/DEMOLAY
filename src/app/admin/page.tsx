@@ -2,6 +2,7 @@ import { FilePenLine, ShieldCheck, UsersRound } from "lucide-react";
 
 import { AdminDeleteForm } from "@/components/admin-delete-form";
 import { AdminLogoutButton } from "@/components/admin-logout-button";
+import { AdminReportStatusForm } from "@/components/admin-report-status-form";
 import { AdminStatusForm } from "@/components/admin-status-form";
 import { LocalSubmissionsPanel } from "@/components/local-submissions-panel";
 import { ButtonLink } from "@/components/ui/button";
@@ -10,7 +11,7 @@ import {
   getSupabaseServerDiagnostics,
   hasSupabaseServerConfig
 } from "@/lib/supabase/server";
-import type { BusinessSubmission } from "@/types/supabase";
+import type { BusinessSubmission, ProfileReport } from "@/types/supabase";
 
 export const metadata = {
   title: "Panel admin",
@@ -22,9 +23,10 @@ export const revalidate = 0;
 
 export default async function AdminPage() {
   const { submissions, errorMessage } = await getSubmissions();
+  const { reports, errorMessage: reportsErrorMessage } = await getReports();
   const diagnostics = getSupabaseServerDiagnostics();
   const pendingCount = submissions.filter((submission) => submission.status === "pending").length;
-  const approvedCount = submissions.filter((submission) => submission.status === "approved").length;
+  const pendingReportsCount = reports.filter((report) => report.status === "pending").length;
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -37,7 +39,7 @@ export default async function AdminPage() {
             Panel de solicitudes
           </h1>
           <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-            Este panel esta protegido por contrasena administrativa. Desde aqui puedes revisar las solicitudes recibidas.
+            Desde aqui puedes revisar solicitudes, reportes y publicaciones del directorio.
           </p>
         </div>
         <AdminLogoutButton />
@@ -46,7 +48,7 @@ export default async function AdminPage() {
       <div className="mt-8 grid gap-4 md:grid-cols-3">
         <Metric icon={<UsersRound size={22} />} label="Pendientes" value={pendingCount.toString()} />
         <Metric icon={<ShieldCheck size={22} />} label="Solicitudes" value={submissions.length.toString()} />
-        <Metric icon={<FilePenLine size={22} />} label="Aprobadas" value={approvedCount.toString()} />
+        <Metric icon={<FilePenLine size={22} />} label="Reportes" value={pendingReportsCount.toString()} />
       </div>
 
       <div className="mt-8 rounded-xl border border-stone-200 bg-white p-5 shadow-sm dark:border-stone-800 dark:bg-zinc-950">
@@ -142,16 +144,109 @@ export default async function AdminPage() {
       </div>
 
       <div className="mt-8 rounded-xl border border-[#b08a2e]/50 bg-white p-5 shadow-sm dark:border-[#b08a2e]/30 dark:bg-zinc-950">
-        <h2 className="text-2xl font-black text-slate-950 dark:text-white">Siguiente mejora</h2>
-        <p className="mt-3 leading-7 text-slate-600 dark:text-slate-300">
-          Las solicitudes aprobadas se publican automaticamente en el directorio publico del Beni. Las rechazadas u ocultas no aparecen para visitantes.
-        </p>
-        <ButtonLink href="/buscar" variant="secondary" className="mt-5">
-          Ver directorio publico
-        </ButtonLink>
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="text-2xl font-black text-slate-950 dark:text-white">
+              Reportes de perfiles
+            </h2>
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+              Aqui aparecen avisos enviados por visitantes cuando ven algo incorrecto en un perfil publicado.
+            </p>
+          </div>
+          <ButtonLink href="/buscar" variant="secondary">
+            Ver directorio publico
+          </ButtonLink>
+        </div>
+
+        {reportsErrorMessage ? (
+          <p className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm font-semibold text-amber-800">
+            Reportes: {reportsErrorMessage}
+          </p>
+        ) : null}
+
+        <div className="mt-5 grid gap-3">
+          {reports.length > 0 ? (
+            reports.map((report) => (
+              <article
+                key={report.id}
+                className="rounded-lg border border-stone-200 bg-[#fffdf7] p-4 dark:border-stone-800 dark:bg-black"
+              >
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <h3 className="text-lg font-black text-slate-950 dark:text-white">
+                      {report.profile_name}
+                    </h3>
+                    <p className="text-sm text-slate-600 dark:text-slate-300">
+                      Reportado: {formatDate(report.created_at)}
+                    </p>
+                  </div>
+                  <span className="w-fit rounded-full bg-red-50 px-3 py-1 text-xs font-black uppercase tracking-normal text-[#b11226]">
+                    {report.status}
+                  </span>
+                </div>
+                <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-600 dark:text-slate-300">
+                  {report.reason}
+                </p>
+                <p className="mt-3 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                  Reportante: {report.reporter_name || "Anonimo"} / Contacto:{" "}
+                  {report.reporter_contact || "No dejo"}
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <ButtonLink href={`/perfil/${report.profile_slug}`} variant="secondary">
+                    Abrir perfil
+                  </ButtonLink>
+                  <AdminReportStatusForm id={report.id} status="reviewed" label="Marcar revisado" />
+                  <AdminReportStatusForm id={report.id} status="dismissed" label="Descartar" />
+                </div>
+              </article>
+            ))
+          ) : (
+            <p className="rounded-lg border border-dashed border-stone-300 p-5 text-center text-slate-600 dark:border-stone-700 dark:text-slate-300">
+              Todavia no hay reportes de perfiles.
+            </p>
+          )}
+        </div>
       </div>
     </section>
   );
+}
+
+async function getReports(): Promise<{
+  reports: ProfileReport[];
+  errorMessage: string;
+}> {
+  if (!hasSupabaseServerConfig()) {
+    return { reports: [], errorMessage: "" };
+  }
+
+  const supabase = createSupabaseServerClient();
+
+  if (!supabase) {
+    return { reports: [], errorMessage: "Supabase no esta configurado todavia." };
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("profile_reports")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(30);
+
+    if (error || !data) {
+      return {
+        reports: [],
+        errorMessage:
+          error?.message ??
+          "No llegaron reportes. Si es la primera vez, ejecuta la migracion de reportes en Supabase."
+      };
+    }
+
+    return { reports: data as ProfileReport[], errorMessage: "" };
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "No se pudo conectar con Supabase.";
+    return { reports: [], errorMessage: message };
+  }
 }
 
 async function getSubmissions(): Promise<{
@@ -208,4 +303,12 @@ function DiagnosticItem({ label, value }: { label: string; value: string }) {
       </p>
     </div>
   );
+}
+
+function formatDate(value: string) {
+  return new Intl.DateTimeFormat("es-BO", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "America/La_Paz"
+  }).format(new Date(value));
 }

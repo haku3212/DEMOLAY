@@ -74,6 +74,37 @@ export async function deleteSubmission(formData: FormData) {
   redirect("/admin");
 }
 
+export async function updateReportStatus(formData: FormData) {
+  await requireAdmin();
+
+  const id = String(formData.get("id") ?? "");
+  const status = String(formData.get("status") ?? "");
+
+  if (!id || !["reviewed", "dismissed"].includes(status)) {
+    throw new Error("Reporte invalido.");
+  }
+
+  const supabase = createSupabaseServerClient();
+
+  if (!supabase) {
+    throw new Error("Supabase no esta configurado.");
+  }
+
+  const { error } = await supabase
+    .from("profile_reports")
+    .update({
+      status,
+      reviewed_at: new Date().toISOString()
+    })
+    .eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  revalidatePath("/admin");
+}
+
 async function requireAdmin() {
   const cookieStore = await cookies();
   const isAdmin = await verifyAdminSessionToken(
