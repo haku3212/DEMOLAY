@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { notifyNewSubmission } from "@/lib/notifications";
 import { createSupabaseServerClient, hasSupabaseServerConfig } from "@/lib/supabase/server";
 import {
   ALLOWED_PROFILE_IMAGE_TYPES,
@@ -131,6 +132,16 @@ export async function POST(request: Request) {
         { status: 500 }
       );
     }
+
+    await notifyNewSubmission({
+      id: data.id,
+      owner: parsed.data.owner,
+      businessName: parsed.data.businessName,
+      category: parsed.data.category,
+      city: parsed.data.city,
+      department: parsed.data.department,
+      whatsapp: parsed.data.whatsapp
+    });
 
     return NextResponse.json({ ok: true, mode: "supabase", submission: data });
   } catch (error) {

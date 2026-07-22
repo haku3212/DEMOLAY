@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { notifyProfileReport } from "@/lib/notifications";
 import { createSupabaseServerClient, hasSupabaseServerConfig } from "@/lib/supabase/server";
 import { profileReportSchema } from "@/lib/validations/report";
 
@@ -50,6 +51,12 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
+
+  await notifyProfileReport({
+    profileName: parsed.data.profileName,
+    profileSlug: parsed.data.profileSlug,
+    reason: parsed.data.reason
+  });
 
   return NextResponse.json({ ok: true });
 }
