@@ -2,7 +2,7 @@ create extension if not exists "pgcrypto";
 
 do $$
 begin
-  if not exists (select 1 from pg_type where typname = 'business_status') then
+  if to_regtype('public.business_status') is null then
     create type public.business_status as enum (
       'pending',
       'approved',
@@ -49,12 +49,18 @@ begin
 end;
 $$;
 
-drop trigger if exists business_submissions_set_updated_at on public.business_submissions;
+do $$
+begin
+  if to_regclass('public.business_submissions') is not null then
+    drop trigger if exists business_submissions_set_updated_at on public.business_submissions;
 
-create trigger business_submissions_set_updated_at
-before update on public.business_submissions
-for each row
-execute function public.set_updated_at();
+    create trigger business_submissions_set_updated_at
+    before update on public.business_submissions
+    for each row
+    execute function public.set_updated_at();
+  end if;
+end;
+$$;
 
 alter table public.business_submissions enable row level security;
 
