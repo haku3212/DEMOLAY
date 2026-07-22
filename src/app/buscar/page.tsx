@@ -32,7 +32,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         Buscar servicios y emprendimientos
       </h1>
       <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-        Esta version piloto muestra servicios del Beni: perfiles aprobados por administracion y datos ficticios de prueba.
+        Esta version piloto muestra servicios del Beni aprobados por administracion.
       </p>
       <div className="mt-8">
         <SearchPanel />

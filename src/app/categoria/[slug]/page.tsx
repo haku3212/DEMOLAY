@@ -44,11 +44,17 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300">
         {category.description} Resultados del piloto en Beni, incluyendo perfiles aprobados por administracion.
       </p>
-      <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {businesses.map((business) => (
-          <BusinessCard key={business.id} business={business} />
-        ))}
-      </div>
+      {businesses.length > 0 ? (
+        <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {businesses.map((business) => (
+            <BusinessCard key={business.id} business={business} />
+          ))}
+        </div>
+      ) : (
+        <p className="mt-8 rounded-xl border border-dashed border-stone-300 bg-white p-6 text-center text-slate-600 dark:border-stone-700 dark:bg-stone-950 dark:text-slate-300">
+          Todavia no hay perfiles aprobados en esta categoria.
+        </p>
+      )}
     </section>
   );
 }

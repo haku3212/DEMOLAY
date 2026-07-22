@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+import { AdminDeleteForm } from "@/components/admin-delete-form";
 import { AdminStatusForm } from "@/components/admin-status-form";
 import { ButtonLink } from "@/components/ui/button";
 import { createSupabaseServerClient, hasSupabaseServerConfig } from "@/lib/supabase/server";
@@ -82,6 +83,7 @@ export default async function AdminSubmissionPage({ params }: AdminSubmissionPag
             <AdminStatusForm id={submission.id} status="approved" label="Aprobar y publicar" />
             <AdminStatusForm id={submission.id} status="rejected" label="Rechazar" variant="secondary" />
             <AdminStatusForm id={submission.id} status="suspended" label="Ocultar" variant="ghost" />
+            <AdminDeleteForm id={submission.id} />
           </div>
 
           {!visibleWhenApproved ? (

@@ -1,4 +1,3 @@
-import { demoBusinesses } from "@/lib/demo-data";
 import { createSupabaseServerClient, hasSupabaseServerConfig } from "@/lib/supabase/server";
 import type { BusinessSubmission } from "@/types/supabase";
 
@@ -38,14 +37,7 @@ export function createBusinessSlug(name: string) {
 
 export async function getPublishedBusinesses() {
   const approvedSubmissions = await getApprovedSubmissions();
-  const publishedBusinesses = approvedSubmissions.map(mapSubmissionToBusiness);
-  const beniDemoBusinesses = demoBusinesses.map((business) => ({
-    ...business,
-    imageUrl: null,
-    isFictional: true
-  }));
-
-  return [...publishedBusinesses, ...beniDemoBusinesses];
+  return approvedSubmissions.map(mapSubmissionToBusiness);
 }
 
 export async function findBusinessBySlug(slug: string) {

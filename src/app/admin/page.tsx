@@ -1,10 +1,10 @@
 import { FilePenLine, ShieldCheck, UsersRound } from "lucide-react";
 
+import { AdminDeleteForm } from "@/components/admin-delete-form";
 import { AdminLogoutButton } from "@/components/admin-logout-button";
 import { AdminStatusForm } from "@/components/admin-status-form";
 import { LocalSubmissionsPanel } from "@/components/local-submissions-panel";
 import { ButtonLink } from "@/components/ui/button";
-import { demoBusinesses } from "@/lib/demo-data";
 import {
   createSupabaseServerClient,
   getSupabaseServerDiagnostics,
@@ -44,7 +44,7 @@ export default async function AdminPage() {
       </div>
 
       <div className="mt-8 grid gap-4 md:grid-cols-3">
-        <Metric icon={<UsersRound size={22} />} label="Perfiles ficticios" value={demoBusinesses.length.toString()} />
+        <Metric icon={<UsersRound size={22} />} label="Pendientes" value={pendingCount.toString()} />
         <Metric icon={<ShieldCheck size={22} />} label="Solicitudes" value={submissions.length.toString()} />
         <Metric icon={<FilePenLine size={22} />} label="Aprobadas" value={approvedCount.toString()} />
       </div>
@@ -115,6 +115,7 @@ export default async function AdminPage() {
                     <AdminStatusForm id={submission.id} status="approved" label="Aprobar y publicar" />
                     <AdminStatusForm id={submission.id} status="rejected" label="Rechazar" variant="secondary" />
                     <AdminStatusForm id={submission.id} status="suspended" label="Ocultar" variant="ghost" />
+                    <AdminDeleteForm id={submission.id} />
                   </div>
                 </article>
               ))

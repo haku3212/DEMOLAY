@@ -143,9 +143,15 @@ export default async function Home() {
           </div>
 
           <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {businesses.map((business) => (
-              <BusinessCard key={business.id} business={business} />
-            ))}
+            {businesses.length > 0 ? (
+              businesses.map((business) => (
+                <BusinessCard key={business.id} business={business} />
+              ))
+            ) : (
+              <div className="rounded-xl border border-dashed border-stone-300 bg-white p-6 text-center text-slate-600 dark:border-stone-700 dark:bg-stone-950 dark:text-slate-300 md:col-span-2 xl:col-span-4">
+                Todavia no hay perfiles aprobados. Cuando apruebes una solicitud del Beni, aparecera aqui.
+              </div>
+            )}
           </div>
         </div>
       </section>
