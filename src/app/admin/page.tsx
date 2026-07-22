@@ -16,6 +16,9 @@ export const metadata = {
   description: "Panel administrativo de Work DeMolay."
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function AdminPage() {
   const { submissions, errorMessage } = await getSubmissions();
   const diagnostics = getSupabaseServerDiagnostics();
