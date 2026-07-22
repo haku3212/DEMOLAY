@@ -4,7 +4,11 @@ import { AdminLogoutButton } from "@/components/admin-logout-button";
 import { LocalSubmissionsPanel } from "@/components/local-submissions-panel";
 import { ButtonLink } from "@/components/ui/button";
 import { demoBusinesses } from "@/lib/demo-data";
-import { createSupabaseServerClient, hasSupabaseServerConfig } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  getSupabaseServerDiagnostics,
+  hasSupabaseServerConfig
+} from "@/lib/supabase/server";
 import type { BusinessSubmission } from "@/types/supabase";
 
 export const metadata = {
@@ -13,7 +17,8 @@ export const metadata = {
 };
 
 export default async function AdminPage() {
-  const submissions = await getSubmissions();
+  const { submissions, errorMessage } = await getSubmissions();
+  const diagnostics = getSupabaseServerDiagnostics();
   const pendingCount = submissions.filter((submission) => submission.status === "pending").length;
 
   return (
@@ -53,6 +58,22 @@ export default async function AdminPage() {
             Probar formulario
           </ButtonLink>
         </div>
+
+        <div className="mt-5 grid gap-3 rounded-lg border border-[#b08a2e]/40 bg-[#fffdf7] p-4 text-sm dark:border-[#b08a2e]/30 dark:bg-black sm:grid-cols-2 lg:grid-cols-4">
+          <DiagnosticItem label="URL Supabase" value={diagnostics.hasUrl ? "Detectada" : "Falta"} />
+          <DiagnosticItem label="Host" value={diagnostics.host} />
+          <DiagnosticItem label="URL segura" value={diagnostics.validUrl ? "Si" : "No"} />
+          <DiagnosticItem
+            label="Service key"
+            value={diagnostics.hasServiceRoleKey ? `Detectada (${diagnostics.serviceRoleKeyStart}...)` : "Falta"}
+          />
+        </div>
+
+        {errorMessage ? (
+          <p className="mt-4 rounded-lg border border-red-200 bg-red-50 p-4 text-sm font-semibold text-[#b11226]">
+            Error Supabase: {errorMessage}
+          </p>
+        ) : null}
 
         {hasSupabaseServerConfig() ? (
           <div className="mt-5 grid gap-3">
@@ -119,28 +140,37 @@ export default async function AdminPage() {
   );
 }
 
-async function getSubmissions(): Promise<BusinessSubmission[]> {
+async function getSubmissions(): Promise<{
+  submissions: BusinessSubmission[];
+  errorMessage: string;
+}> {
   if (!hasSupabaseServerConfig()) {
-    return [];
+    return { submissions: [], errorMessage: "" };
   }
 
   const supabase = createSupabaseServerClient();
 
   if (!supabase) {
-    return [];
+    return { submissions: [], errorMessage: "Supabase no esta configurado todavia." };
   }
 
-  const { data, error } = await supabase
-    .from("business_submissions")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(20);
+  try {
+    const { data, error } = await supabase
+      .from("business_submissions")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(20);
 
-  if (error || !data) {
-    return [];
+    if (error || !data) {
+      return { submissions: [], errorMessage: error?.message ?? "No llegaron datos." };
+    }
+
+    return { submissions: data as BusinessSubmission[], errorMessage: "" };
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "No se pudo conectar con Supabase.";
+    return { submissions: [], errorMessage: message };
   }
-
-  return data as BusinessSubmission[];
 }
 
 function Metric({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
@@ -151,6 +181,17 @@ function Metric({ icon, label, value }: { icon: React.ReactNode; label: string; 
         <p className="text-sm font-bold uppercase tracking-normal">{label}</p>
       </div>
       <p className="mt-4 text-3xl font-black text-black dark:text-white">{value}</p>
+    </div>
+  );
+}
+
+function DiagnosticItem({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p className="font-black uppercase tracking-normal text-[#b11226]">{label}</p>
+      <p className="mt-1 break-words font-semibold text-slate-700 dark:text-slate-200">
+        {value}
+      </p>
     </div>
   );
 }

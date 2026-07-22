@@ -138,11 +138,17 @@ export async function POST(request: Request) {
       error instanceof Error
         ? error.message
         : "No se pudo conectar con Supabase.";
+    const cause =
+      error instanceof Error && "cause" in error
+        ? String((error as Error & { cause?: unknown }).cause ?? "")
+        : "";
 
     return NextResponse.json(
       {
         ok: false,
-        message: `No se pudo conectar con Supabase: ${message}. Revisa que NEXT_PUBLIC_SUPABASE_URL sea la URL del proyecto y que SUPABASE_SERVICE_ROLE_KEY sea la secret key.`
+        message: `No se pudo conectar con Supabase: ${message}${
+          cause ? ` (${cause})` : ""
+        }. Revisa que NEXT_PUBLIC_SUPABASE_URL sea la URL del proyecto y que SUPABASE_SERVICE_ROLE_KEY sea la secret key.`
       },
       { status: 500 }
     );
